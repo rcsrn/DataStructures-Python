@@ -35,3 +35,5 @@ for e in list:
 print("**************************************")
 
 
+new_list = List.from_list(list)
+print(new_list)

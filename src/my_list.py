@@ -63,6 +63,16 @@ class List():
         self.__tail = None
         self.__length = 0
 
+    @classmethod
+    def from_list(cls, list):
+        new_list = List()
+        i = 0
+        for element in list:
+            new_list.add_at(element, i)
+            i = i + 1
+        return new_list
+    
+        
     def add_at(self, element, i):
         if not isinstance(element, Element) or i < 0 or i > self.get_length():
             raise ValueError("It is not possible to add this element to the list.")
