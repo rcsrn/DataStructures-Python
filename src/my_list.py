@@ -12,7 +12,7 @@ class Element():
 
 class List():
     __slots__ = ("__head", "__tail", "__length")
-
+    
     class Node():
         def __init__(self):
             self.__prev = None
@@ -37,66 +37,107 @@ class List():
         def set_prev(self, prev_node):
             self.__prev = prev_node
 
+        def __next__(self):
+            if self.__next == None:
+                raise StopIteration
+            else:
+                self = self.__next
+                return self.__element
+
+    class Iterator():
+        def __init__(self, head):
+            self.__next_node = head
+
+        def get_next(self):
+            return self.__next_node
+            
+        def __next__(self):
+            if self.__next_node == None:
+                raise StopIteration
+            element = self.__next_node.get_element()
+            self.__next_node = self.get_next().get_next()
+            return element
+            
     def __init__(self):
         self.__head = None
         self.__tail = None
         self.__length = 0
 
     def add_at(self, element, i):
-        if not isinstance(element, Element) or i < 0 or i > self.__length:
+        if not isinstance(element, Element) or i < 0 or i > self.get_length():
             raise ValueError("It is not possible to add this element to the list.")
 
-        node = List.Node()
+        node = self.Node()
         node.set_element(element)
 
+        if i == 0:
+            self.add_to_start(node)
+        elif i == self.__length:
+            self.add_to_end(node)
+        else:
+             change = self.get_node_at(i)
+                
+             node.set_prev(change.get_prev())            
+             prev_old = change.get_prev()
+             prev_old.set_next(node)
+             node.set_next(change)
+             change.set_prev(node)             
+                
+        self.__length = self.__length + 1
+
+    def add_to_start(self, node):
         if self.__length == 0:
             self.__head = node
             self.__tail = node
         else:
-            if self.__length == 1:
-                if i == 0:
-                    node.set_next(self.__head)
-                    self.__head.set_prev(node)
-                else:
-                    node.set_prev(self.__tail)
-                    self.__tail.set_next(node)
-            else:
-                change = self.get_node_at(i)
-                node.set_prev(change.get_prev)
-                change.get_prev().set_next(node)
-                node.set_next(change)
-                change.set_prev(node)
-                
-        self.__length = self.__length + 1
-            
+            node.set_next(self.__head)
+            self.__head.set_prev(node)
+            self.__head = node
+
+    def add_to_end(self, node):
+        if self.__length == 0:
+            self.__head = node
+            self.__tail = node
+        else:
+            node.set_prev(self.__tail)
+            self.__tail.set_next(node)
+            self.__tail = node
         
     def get_node_at(self, index):
+        if index < 0 or index > self.__length - 1:
+            raise ValueError("It is not an acceptable index.")
         it = self.__head
         for i in range(self.__length):
             if i == index:
                 return it
-            it = it.__next
+            it = it.get_next()
 
     def get_element_at(self, index):
-        node = self.get_node_at(index).get_element()
-        return node.get_value()
+        element = self.get_node_at(index).get_element()
+        return element.get_value()
 
     def is_empty(self):
         return self.__length == 0
 
-    def getLength(self):
+    def get_length(self):
         return self.__length
 
-    # def __str__(self):
-    #     if self.is_empty():
-    #         return "[]"
-    #     it = self.__head
-    #     string = "[ "
-    #     string += it.get_element().__str__()
-    #     it = it.get_next()
-    #     for i in range(self.__length):
-    #         string += ", " + it.get_element().__str__()
-    #     string += "]"
-    #     return string
-    
+    def __iter__(self):
+        return self.Iterator(self.__head)
 
+    def __str__(self):
+        if self.is_empty():
+            return "[]"
+        it = self.__head
+        string = "["
+        for i in range(self.__length - 1):
+            string += "'" + it.get_element().get_value() + "', "
+            it = it.get_next()
+        string += "'" + it.get_element().get_value() + "']"
+        return string
+
+    def clean(self):
+        self.__head = None
+        self.__tail = None
+        self.__length = 0
+    
