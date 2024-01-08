@@ -121,8 +121,24 @@ class TestList(unittest.TestCase):
         self.assertTrue(test_list.__str__() == correct_list.__str__())
         
         self.assertTrue(test_list.get_length() == last_value - 1)
+
+        last_value = test_list.get_length()
         
+        test_list.removeByValue("1")
+        correct_list.remove("1")
+
+        self.assertTrue(test_list.__str__() == correct_list.__str__())
         
+        self.assertTrue(test_list.get_length() == last_value - 1)
+
+        last_value = test_list.get_length()
+        
+        test_list.removeByValue("3")
+        correct_list.remove("3")
+
+        self.assertTrue(test_list.__str__() == correct_list.__str__())
+        
+        self.assertTrue(test_list.get_length() == last_value - 1)
         
          
 if __name__ == '__main__':
