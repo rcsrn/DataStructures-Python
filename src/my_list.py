@@ -169,7 +169,6 @@ class List():
                     
                 self.__length = self.__length - 1
                 break
-        
             else:
                 it = it.get_next()
         
