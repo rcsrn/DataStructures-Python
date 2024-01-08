@@ -172,4 +172,15 @@ class List():
             else:
                 it = it.get_next()
         
-    
+    def equals(self, other_list):
+        if not isinstance(other_list, List):
+            raise ValueError("The given object is not a List.")
+
+        if self.__length != other_list.__length:
+            return false
+        
+        for element in self:
+            if element.get_value() != other_list.get_value():
+                return false
+        return true
+            
