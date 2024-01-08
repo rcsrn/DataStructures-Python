@@ -68,6 +68,8 @@ class List():
         new_list = List()
         i = 0
         for element in list:
+            if not isinstance(element, Element):
+                element = Element(element.__str__())
             new_list.add_at(element, i)
             i = i + 1
         return new_list
@@ -150,4 +152,25 @@ class List():
         self.__head = None
         self.__tail = None
         self.__length = 0
+
+    def removeByValue(self, value):
+        it = self.__head
+        while it != None:
+            if it.get_element().get_value() == value:              
+                if (it == self.__head):
+                    it.get_next().set_prev(None)
+                    self.__head = it.get_next()
+                elif (it == self.__tail):
+                    it.get_prev().set_next(None)
+                    self.__tail = it.get_prev()
+                else: 
+                    it.get_next().set_prev(it.get_prev())
+                    it.get_prev().set_next(it.get_next())
+                    
+                self.__length = self.__length - 1
+                break
+        
+            else:
+                it = it.get_next()
+        
     

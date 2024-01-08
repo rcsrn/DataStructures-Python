@@ -102,12 +102,28 @@ class TestList(unittest.TestCase):
 
     def test_clean(self):
         TestList.test_list.clean()
-
         self.assertTrue(TestList.test_list.__str__() == "[]")
-        self.assertTrue(TestList.test_list.get_length() == 0) 
+        self.assertTrue(TestList.test_list.get_length() == 0)
 
+    def test_from_list(self):
+        TestList.test_list = List.from_list(TestList.correct_list)
+        self.assertTrue(TestList.test_list.__str__() == TestList.correct_list.__str__())
         
+    def test_remove(self):
+        test_list = TestList.test_list
+        correct_list = TestList.correct_list.copy()
 
+        last_value = test_list.get_length()
+        
+        test_list.removeByValue("5")
+        correct_list.remove("5")
+        
+        self.assertTrue(test_list.__str__() == correct_list.__str__())
+        
+        self.assertTrue(test_list.get_length() == last_value - 1)
+        
+        
+        
          
 if __name__ == '__main__':
     unittest.main()
