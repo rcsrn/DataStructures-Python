@@ -139,6 +139,12 @@ class TestList(unittest.TestCase):
         self.assertTrue(test_list.__str__() == correct_list.__str__())
         
         self.assertTrue(test_list.get_length() == last_value - 1)
+
+    def test_equals(self):
+        use = List()
+
+    def test_copy(self):
+        use = List()
         
          
 if __name__ == '__main__':
