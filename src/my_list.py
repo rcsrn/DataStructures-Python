@@ -177,10 +177,18 @@ class List():
             raise ValueError("The given object is not a List.")
 
         if self.__length != other_list.__length:
-            return false
+            return False
         
-        for element in self:
-            if element.get_value() != other_list.get_value():
-                return false
-        return true
+        for i in range(self.__length):
+            if (self.get_element_at(i) != other_list.get_element_at(i)):
+                return False
+        return True
+        
             
+    def copy(self):
+        copy = List()
+        i = 0
+        for element in self:
+            copy.addAt(element.get_value(), i)
+            i = i + 1
+        return copy
