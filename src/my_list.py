@@ -193,6 +193,6 @@ class List():
             i = i + 1
         return copy
 
-    def extend(self):
+    def extend(self, extension):
         print("Code goes here.")
     

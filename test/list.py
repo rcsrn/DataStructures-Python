@@ -162,7 +162,19 @@ class TestList(unittest.TestCase):
 
         self.assertFalse(original.equals(copy))
         
-    
+    def test_extend(self):
+        extended_list = List.from_list(TestList.correct_list)
+        extension = List.from_list(['0', '0', '0'])
+        extended_list.extend(extension)
+
+        extension.add_at(Element('5'), 0)
+        extension.add_at(Element('4'), 0)
+        extension.add_at(Element('3'), 0)
+        extension.add_at(Element('2'), 0)
+        extension.add_at(Element('1'), 0)
+
+        self.assertTrue(extended_list.equals(extension))
+        
          
 if __name__ == '__main__':
     unittest.main()
