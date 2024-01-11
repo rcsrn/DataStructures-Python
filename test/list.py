@@ -141,11 +141,28 @@ class TestList(unittest.TestCase):
         self.assertTrue(test_list.get_length() == last_value - 1)
 
     def test_equals(self):
-        use = List()
+        correct_list = List.from_list(TestList.correct_list.copy())
+        copy = List.from_list(TestList.correct_list.copy())
 
-    def test_copy(self):
-        use = List()
+        self.assertTrue(correct_list.equals(copy))
         
+        copy.removeByValue(correct_list.get_element_at(correct_list.get_length() - 1))
+
+        self.assertFalse(correct_list.equals(copy))
+        
+        
+        
+    def test_copy(self):
+        original = List.from_list(TestList.correct_list)
+        copy = original.copy()
+
+        self.assertTrue(original.equals(copy))
+
+        copy.removeByValue(copy.get_element_at(copy.get_length() - 1))
+
+        self.assertFalse(original.equals(copy))
+        
+    
          
 if __name__ == '__main__':
     unittest.main()

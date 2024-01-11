@@ -189,6 +189,10 @@ class List():
         copy = List()
         i = 0
         for element in self:
-            copy.addAt(element.get_value(), i)
+            copy.add_at(element, i)
             i = i + 1
         return copy
+
+    def extend(self):
+        print("Code goes here.")
+    
