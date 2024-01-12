@@ -1,6 +1,5 @@
 from in_out import InOut
 
-
 class Queue(InOut):
 
     class Node():
@@ -49,4 +48,5 @@ class Queue(InOut):
     def __str__(self):
         print("code goes here")
       
-
+    def __iterator__(self):
+        print("code goes here")
