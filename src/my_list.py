@@ -83,9 +83,9 @@ class List():
         node.set_element(element)
 
         if i == 0:
-            self.add_to_start(node)
+            self._add_to_start(node)
         elif i == self.__length:
-            self.add_to_end(node)
+            self._add_to_end(node)
         else:
              change = self.get_node_at(i)
                 
@@ -97,7 +97,7 @@ class List():
                 
         self.__length = self.__length + 1
 
-    def add_to_start(self, node):
+    def _add_to_start(self, node):
         if self.__length == 0:
             self.__head = node
             self.__tail = node
@@ -106,7 +106,7 @@ class List():
             self.__head.set_prev(node)
             self.__head = node
 
-    def add_to_end(self, node):
+    def _add_to_end(self, node):
         if self.__length == 0:
             self.__head = node
             self.__tail = node
@@ -194,5 +194,12 @@ class List():
         return copy
 
     def extend(self, extension):
-        print("Code goes here.")
+        try:
+            for element in extension:
+                if not isinstance(element, Element):
+                    element = Element(element)
+                self.add_at(element, self.__length)
+        except TypeError:
+           raise TypeError("This is a test exception")
+    
     

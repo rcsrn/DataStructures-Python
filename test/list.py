@@ -149,8 +149,7 @@ class TestList(unittest.TestCase):
         copy.removeByValue(correct_list.get_element_at(correct_list.get_length() - 1))
 
         self.assertFalse(correct_list.equals(copy))
-        
-        
+               
         
     def test_copy(self):
         original = List.from_list(TestList.correct_list)
@@ -174,7 +173,11 @@ class TestList(unittest.TestCase):
         extension.add_at(Element('1'), 0)
 
         self.assertTrue(extended_list.equals(extension))
-        
+
+        with self.assertRaises(TypeError) as context:
+            extended_list.extend(1)
+            self.assertEqual(str(context.exception), "This is a test exception")
+            
          
 if __name__ == '__main__':
     unittest.main()
