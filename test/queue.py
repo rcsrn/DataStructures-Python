@@ -2,6 +2,7 @@ import unittest
 import sys
 import time
 import signal
+import threading
 
 sys.path.append('../src')
 
@@ -53,8 +54,33 @@ class TestQueue(unittest.TestCase):
         while not test_queue.empty():
             self.assertEqual(i, test_queue.get())
             i = i + 1
-        
 
+
+    test_queue = Queue(5)
+
+    def join(self):
+        test_queue = TestQueue.test_queue
+        
+        try:
+            signal.alarm(5)
+            threading.Thread(target=auxiliar, daemon=True).start()
+            for i in range(5):
+                test_queue.put_nowait(i)
+            
+            test_queue.join()
+        except (TimeoutError):
+            self.fail("Timeout error")
+
+        self.assertTrue(test_queue.empty())
+
+    def auxiliar():
+        test_queue = TestQueue.test_queue
+        while not test_queue.empty():
+            test_queue.get()
+            test_queue.task_done()
+    
+        
+            
 if __name__ == "__main__":
     unittest.main()
 
