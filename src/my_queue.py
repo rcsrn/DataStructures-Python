@@ -1,4 +1,6 @@
 from in_out import InOut
+from exception.full_exception import FullException
+import threading
 
 class Queue(InOut):
     
@@ -21,6 +23,7 @@ class Queue(InOut):
 
     def __init__(self, maxsize : int = 0):
         self.__head = None
+        self.__tail = None
         self.__length = 0
         self.__maxsize = maxsize
         self.__unfinished_tasks = 0
@@ -35,7 +38,40 @@ class Queue(InOut):
         return self.__length
 
     def put(self, element, block=True, timeout=None):
-        print("code goes here")
+        if block:
+            if timeout != None:
+                event = threading.Event()
+                threading.Thread(target=_verify_free_slot(event)).start()
+                if event.wait(timeout):
+                    self._add(element)
+                else:
+                    raise FullException("There is no a free slot in the queue")
+            else:
+                event = threading.Event()
+                threading.Thread(target=self._verify_free_slot(event)).start()
+                event.wait()
+                self._add(element)
+        else:
+            if self.__length == self.__size:
+                raise FullException("There is no a free slot in the queue")
+            self._add(element)
+
+
+    def _add(self, element):
+        if self.__length == 0:
+            node = self.Node(element)
+            self.__head = node
+            self.__tail = node
+        else:
+            self.__tail.__next = node
+            self.__tail = node
+            
+        self.__length += 1
+        self.__unfinished_tasks += 1
+
+    def _verify_free_slot(self, event):
+        print("se")
+    
 
     def put_nowait(self, element):
         print("code goes here")
