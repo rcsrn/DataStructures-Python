@@ -23,6 +23,7 @@ class Queue(InOut):
         self.__head = None
         self.__length = 0
         self.__maxsize = maxsize
+        self.__unfinished_tasks = 0
 
     def empty(self):
         return self.__length == 0
@@ -45,8 +46,8 @@ class Queue(InOut):
     def join(self):
         print("code goes here")
 
-    def __str__(self):
+    def task_done(self):
         print("code goes here")
-      
-    def __iterator__(self):
+
+    def __str__(self):
         print("code goes here")
