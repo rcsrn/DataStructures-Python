@@ -46,7 +46,7 @@ class TestQueue(unittest.TestCase):
                 test_queue.put(1, True, 3)
 
     def test_get(self):
-        test_queue() = Queue(5)
+        test_queue = Queue(5)
         for i in range(5):
             test_queue.put_nowait(i)
         i = 0
