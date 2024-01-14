@@ -22,7 +22,7 @@ class TestQueue(unittest.TestCase):
         self.assertTrue(test_queue.empty())
         
     def test_put(self):
-        test_queue() = Queue(5)
+        test_queue = Queue(5)
         for i in range(5):
             test_queue.put(i)
         self.assertTrue(test_queue.full())
@@ -36,7 +36,7 @@ class TestQueue(unittest.TestCase):
             signal.alarm(5)
             test_queue.put(1, True)
       
-        test_queue() = Queue(5)
+        test_queue = Queue(5)
 
         for i in range(5):
             test_queue.put(i)
