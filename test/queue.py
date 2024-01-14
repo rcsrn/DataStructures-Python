@@ -45,6 +45,15 @@ class TestQueue(unittest.TestCase):
             with assertRaisesTimeout(3):
                 test_queue.put(1, True, 3)
 
+    def test_get(self):
+        test_queue() = Queue(5)
+        for i in range(5):
+            test_queue.put_nowait(i)
+        i = 0
+        while not test_queue.empty():
+            self.assertEqual(i, test_queue.get())
+            i = i + 1
+        
 
 if __name__ == "__main__":
     unittest.main()
