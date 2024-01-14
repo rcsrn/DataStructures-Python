@@ -1,12 +1,12 @@
 from in_out import InOut
 
 class Queue(InOut):
-
+    
     class Node():
         def __init__(self, element):
             self.__element = element
             self.__next = None
-
+            
         def set_element(self, element):
             self.element = element
 
@@ -19,21 +19,21 @@ class Queue(InOut):
         def get_next(self):
             return self.__next
 
-    def __init__(self, size : int = 0):
+    def __init__(self, maxsize : int = 0):
         self.__head = None
         self.__length = 0
-        self.__size = size
+        self.__maxsize = maxsize
 
     def empty(self):
         return self.__length == 0
 
     def full(self):
-        return self.__length == self.__size
+        return self.__length == self.__maxsize
         
     def size(self):
-        return self.__size
+        return self.__length
 
-    def put(self, element):
+    def put(self, element, block = True, timeout = None):
         print("code goes here")
 
     def put_nowait(self, element):
