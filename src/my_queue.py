@@ -34,13 +34,16 @@ class Queue(InOut):
     def size(self):
         return self.__length
 
-    def put(self, element, block = True, timeout = None):
+    def put(self, element, block=True, timeout=None):
         print("code goes here")
 
     def put_nowait(self, element):
         print("code goes here")
         
-    def get(self):
+    def get(self, block=True, timeout=None):
+        print("code goes here")
+
+    def get_nowait(self):
         print("code goes here")
 
     def join(self):
