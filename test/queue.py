@@ -24,18 +24,36 @@ class TestQueue(unittest.TestCase):
         test_queue = Queue(1)
         test_queue.put(1)
         self.assertTrue(test_queue.full())
+
         
+        timeout = 3
+        starting_time = time.time()
         with self.assertRaises(FullException):
-            test_queue.put(1, True, 3)
-        
+            test_queue.put(1, True, timeout)
+        ending_time = time.time()
+        total_time = ending_time - starting_time
+        self.assertEqual(timeout, int(total_time))
+            
         with self.assertRaises(FullException):
             test_queue.put(1, False)
 
-        
+        test_queue = Queue(20)
+            
+        for i in range(20):
+            test_queue.put(i)
+        self.assertTrue(test_queue.full())
 
+        timeout = 5
+        starting_time = time.time()
+        with self.assertRaises(FullException):
+            test_queue.put(20, True, timeout)
+        ending_time = time.time()
+        total_time = ending_time - starting_time
+        self.assertEqual(timeout, int(total_time))    
 
-        
-
+        with self.assertRaises(FullException):
+            test_queue.put(20, False)
+            
     def test_get(self):
         test_queue = Queue(5)
         for i in range(5):
