@@ -27,7 +27,8 @@ class Queue(InOut):
         self.__length = 0
         self.__maxsize = maxsize
         self.__unfinished_tasks = 0
-
+        self.__timeout = False
+        
     def empty(self):
         return self.__length == 0
 
@@ -41,25 +42,28 @@ class Queue(InOut):
         if block:
             if timeout != None:
                 event = threading.Event()
-                threading.Thread(target=_verify_free_slot(event)).start()
+                thread = threading.Thread(target=self._verify_free_slot, args=(event,))
+                thread.start()
+                
                 if event.wait(timeout):
                     self._add(element)
                 else:
+                    self.__timeout = True
                     raise FullException("There is no a free slot in the queue")
             else:
                 event = threading.Event()
-                threading.Thread(target=self._verify_free_slot(event)).start()
-                event.wait()
+                threading.Thread(target=self._verify_free_slot, args=(event,)).start()
+                event.wait(1)
                 self._add(element)
         else:
-            if self.__length == self.__size:
+            if self.__length == self.__maxsize:
                 raise FullException("There is no a free slot in the queue")
             self._add(element)
 
 
     def _add(self, element):
+        node = self.Node(element)
         if self.__length == 0:
-            node = self.Node(element)
             self.__head = node
             self.__tail = node
         else:
@@ -70,8 +74,9 @@ class Queue(InOut):
         self.__unfinished_tasks += 1
 
     def _verify_free_slot(self, event):
-        print("se")
-    
+        while self.__length == self.__maxsize and not self.__timeout:
+            continue
+        event.set()
 
     def put_nowait(self, element):
         print("code goes here")
@@ -80,7 +85,8 @@ class Queue(InOut):
         print("code goes here")
 
     def get_nowait(self):
-        print("code goes here")
+        if self.__length != 0:
+            return self.__head
 
     def join(self):
         print("code goes here")

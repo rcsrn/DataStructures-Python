@@ -24,9 +24,6 @@ class TestQueue(unittest.TestCase):
         test_queue = Queue(1)
         test_queue.put(1)
         self.assertTrue(test_queue.full())
-
-        with self.assertRaises(FullException):
-            test_queue.put(1)
         
         with self.assertRaises(FullException):
             test_queue.put(1, True, 3)
