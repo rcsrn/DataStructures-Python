@@ -67,7 +67,7 @@ class Queue(InOut):
             self.__head = node
             self.__tail = node
         else:
-            self.__tail.__next = node
+            self.__tail.set_next(node)
             self.__tail = node
             
         self.__length += 1
@@ -76,7 +76,9 @@ class Queue(InOut):
     def _verify_free_slot(self, event):
         while self.__length == self.__maxsize and not self.__timeout:
             continue
+        self.__timeout = False
         event.set()
+        
 
     def put_nowait(self, element):
         print("code goes here")
@@ -95,4 +97,10 @@ class Queue(InOut):
         print("code goes here")
 
     def __str__(self):
-        print("code goes here")
+        node = self.__head
+        s = "["
+        while node != self.__tail:
+            s += "{}, ".format(node.get_element())
+            node = node.get_next()
+        s += "{}".format(node.get_element()) + "]"
+        return s
