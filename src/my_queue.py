@@ -34,7 +34,6 @@ class Queue(InOut):
 
     def full(self):
         return self.__length == self.__maxsize
-        
     def size(self):
         return self.__length
 
@@ -51,9 +50,10 @@ class Queue(InOut):
                     self.__timeout = True
                     raise FullException("There is no a free slot in the queue")
             else:
+                print("The program goes here ")
                 event = threading.Event()
                 threading.Thread(target=self._verify_free_slot, args=(event,)).start()
-                event.wait(1)
+                event.wait()
                 self._add(element)
         else:
             if self.__length == self.__maxsize:
