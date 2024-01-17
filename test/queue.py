@@ -59,10 +59,12 @@ class TestQueue(unittest.TestCase):
         for i in range(2):
             test_queue.put_nowait(i)
         self.assertTrue(test_queue.full())
+        
         for i in range(2):
-            self.assertEqual(i, test_queue.get())
+            element = test_queue.get()
+            self.assertEqual(i, element)
         self.assertEqual(0, test_queue.size())        
-
+        
         with self.assertRaises(EmptyException):
             test_queue.get(False)
 
@@ -73,6 +75,8 @@ class TestQueue(unittest.TestCase):
         ending_time = time.time()
         self.assertEqual(3, int(ending_time - starting_time))
 
+        test_queue.put_nowait(1)
+        self.assertEqual(1, test_queue.get())
         
     test_queue = Queue(5)
 

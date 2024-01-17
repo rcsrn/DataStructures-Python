@@ -1,5 +1,6 @@
 from in_out import InOut
 from exception.full_exception import FullException
+from exception.empty import EmptyException
 import threading
 import sys
 
@@ -87,12 +88,46 @@ class Queue(InOut):
         self.__timeout = False
         event.set()
         
-
     def put_nowait(self, element):
         self.put(element, False)
         
     def get(self, block=True, timeout=None):
-        print("code goes here")
+        if block:
+            if timeout != None:
+                event = threading.Event()
+                thread = threading.Thread(target=self._verify_available_element, args=(event,))
+                thread.start()
+                if event.wait(timeout):
+                    element = self._remove()
+                    return element
+                else:
+                    self.__timeout = True
+                    raise EmptyException("The queue is empty.")
+            else:
+                event = threading.Event()
+                thread = threading.Thread(target=self._verify_available_element, args=(event,)).start()
+                event.wait()
+                element = self._remove()
+                return element
+        else:
+            if self.__length == 0:
+                raise EmptyException("The queue is empty.")
+            element = self._remove()
+            return element
+            
+    def _remove(self):
+        element = self.__head.get_element()
+        self.__head = self.__head.get_next()
+        self.__length -= 1
+        return element
+
+    def _verify_available_element(self, event):
+        while True:
+            if self.__length != 0 or self.__timeout == True:
+                break
+        self.__timeout = False
+        event.set()
+    
 
     def get_nowait(self):
         if self.__length != 0:
