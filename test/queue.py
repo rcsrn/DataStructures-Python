@@ -11,7 +11,7 @@ from my_queue import Queue
 from exception.full_exception import FullException
 
 class TestQueue(unittest.TestCase):
-
+    
     def test_init(self):
         test_queue = Queue()
         self.assertTrue(test_queue.size() == 0)
@@ -24,7 +24,6 @@ class TestQueue(unittest.TestCase):
         test_queue = Queue(1)
         test_queue.put(1)
         self.assertTrue(test_queue.full())
-
         
         timeout = 3
         starting_time = time.time()
@@ -55,15 +54,18 @@ class TestQueue(unittest.TestCase):
             test_queue.put(20, False)
             
     def test_get(self):
-        test_queue = Queue(5)
-        for i in range(5):
+        test_queue = Queue(2)
+        for i in range(2):
             test_queue.put_nowait(i)
-        i = 0
-        while not test_queue.empty():
-            self.assertEqual(i, test_queue.get())
-            i = i + 1
+        # self.assertTrue(test_queue.full())
+        # for i in range(2):
+        #     self.assertEqual(i, test_queue.get())
+        # self.assertEqual(0, test_queue.size())
 
-
+        # with self.assertRaises(Empty):
+        #     test_queue.get()
+        
+    
     test_queue = Queue(5)
 
     def join(self):

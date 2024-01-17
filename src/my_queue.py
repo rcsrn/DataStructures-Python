@@ -1,6 +1,7 @@
 from in_out import InOut
 from exception.full_exception import FullException
 import threading
+import sys
 
 class Queue(InOut):
     
@@ -22,6 +23,14 @@ class Queue(InOut):
             return self.__next
 
     def __init__(self, maxsize : int = 0):
+        self.__head = None
+        self.__tail = None
+        self.__length = 0
+        self.__maxsize = maxsize
+        self.__unfinished_tasks = 0
+        self.__timeout = False
+
+    def no_limit_queue(self):
         self.__head = None
         self.__tail = None
         self.__length = 0
@@ -80,7 +89,7 @@ class Queue(InOut):
         
 
     def put_nowait(self, element):
-        print("code goes here")
+        self.put(element, False)
         
     def get(self, block=True, timeout=None):
         print("code goes here")
